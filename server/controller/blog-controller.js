@@ -71,10 +71,13 @@ const updateABlog = async (req, res) => {
   let currentBlogUpdate;
 
   try {
-    currentBlogUpdate = await Blog.findOneAndUpdate(id, { title, description });
+    currentBlogUpdate = await Blog.findByIdAndUpdate(id, {
+      title,
+      description,
+    });
   } catch (e) {
     console.log(e);
-    return res.send(500).json({
+    return res.status(500).json({
       message: "Something went wrong while updating! Please try again",
     });
   }
@@ -82,7 +85,7 @@ const updateABlog = async (req, res) => {
   if (!currentBlogUpdate) {
     return res.status(500).json({ message: "Could not Update" });
   }
-  return res.send(200).json({ currentBlogUpdate });
+  return res.status(200).json({ currentBlogUpdate });
 };
 
 module.exports = { fetchListOfBlogs, deleteABlog, updateABlog, addNewBlog };
